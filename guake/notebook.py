@@ -401,7 +401,7 @@ class TerminalNotebook(Gtk.Notebook):
                         directory = active_terminal.get_current_directory()
             except BaseException:
                 pass
-        log.info("Spawning new terminal at %s", directory)
+        log.debug("Spawning new terminal at %s", directory)
         terminal.spawn_sync_pid(directory)
         return terminal
 
@@ -538,7 +538,7 @@ class NotebookManager(GObject.Object):
             self.emit("notebook-created", self.notebooks[workspace_index], workspace_index)
             self.notebooks[workspace_index].connect("terminal-spawned", self.terminal_spawned_cb)
             self.notebooks[workspace_index].connect("page-deleted", self.page_deleted_cb)
-            log.info("created fresh notebook for workspace %d", self.current_notebook)
+            log.debug("created fresh notebook for workspace %d", self.current_notebook)
 
             # add a tab if there is none
             if not self.notebooks[workspace_index].has_page():
@@ -555,7 +555,7 @@ class NotebookManager(GObject.Object):
     def set_workspace(self, index: int):
         self.notebook_parent.remove(self.get_current_notebook())
         self.current_notebook = index
-        log.info("current workspace is %d", self.current_notebook)
+        log.debug("current workspace is %d", self.current_notebook)
         notebook = self.get_current_notebook()
         self.notebook_parent.add(notebook)
         if self.window.get_property("visible") and notebook.last_terminal_focused is not None:

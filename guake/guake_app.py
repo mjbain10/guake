@@ -101,7 +101,7 @@ class Guake(SimpleGladeApp):
 
     def __init__(self):
         def load_schema():
-            log.info("Loading Gnome schema from: %s", SCHEMA_DIR)
+            log.debug("Loading Gnome schema from: %s", SCHEMA_DIR)
 
             return Gio.SettingsSchemaSource.new_from_directory(
                 SCHEMA_DIR, Gio.SettingsSchemaSource.get_default(), False
@@ -129,7 +129,7 @@ class Guake(SimpleGladeApp):
             self.settings = Settings(schema_source)
             self.settings.general.set_string("schema-version", guake_version())
 
-        log.info("Language previously loaded from: %s", LOCALE_DIR)
+        log.debug("Language previously loaded from: %s", LOCALE_DIR)
 
         super().__init__(gladefile("guake.glade"))
 
@@ -137,9 +137,9 @@ class Guake(SimpleGladeApp):
         patch_gtk_theme(self.get_widget("window-root").get_style_context(), self.settings)
         self.add_callbacks(self)
 
-        log.info("Guake Terminal %s", guake_version())
-        log.info("VTE %s", vte_version())
-        log.info("Gtk %s", gtk_version())
+        log.debug("Guake Terminal %s", guake_version())
+        log.debug("VTE %s", vte_version())
+        log.debug("Gtk %s", gtk_version())
 
         self.hidden = True
         self.forceHide = False
@@ -283,7 +283,7 @@ class Guake(SimpleGladeApp):
                 filename,
             )
 
-        log.info("Guake initialized")
+        log.debug("Guake initialized")
 
     def get_notebook(self):
         return self.notebook_manager.get_current_notebook()
@@ -450,7 +450,7 @@ class Guake(SimpleGladeApp):
     def change_palette_name(self, palette_name):
         if isinstance(palette_name, str):
             if palette_name not in PALETTES:
-                log.info("Palette name %s not found", palette_name)
+                log.debug("Palette name %s not found", palette_name)
                 return
             log.debug("Settings palette name to %s", palette_name)
             self.settings.styleFont.set_string("palette", PALETTES[palette_name])
@@ -502,7 +502,7 @@ class Guake(SimpleGladeApp):
             visible = window.get_property("visible")
             self.losefocus_time = get_server_time(self.window)
             if visible and value:
-                log.info("Hiding on focus lose")
+                log.debug("Hiding on focus lose")
                 self.hide()
             return False
 
@@ -915,10 +915,10 @@ class Guake(SimpleGladeApp):
         if prompt_cfg or (prompt_tab_cfg == 1 and procs > 0) or (prompt_tab_cfg == 2):
             log.debug("Remaining procs=%r", procs)
             if PromptQuitDialog(self.window, procs, tabs, notebooks).quit():
-                log.info("Quitting Guake")
+                log.debug("Quitting Guake")
                 Gtk.main_quit()
         else:
-            log.info("Quitting Guake")
+            log.debug("Quitting Guake")
             Gtk.main_quit()
 
     def accel_reset_terminal(self, *args):
@@ -1404,12 +1404,12 @@ class Guake(SimpleGladeApp):
         session_file = self.get_xdg_config_directory() / filename
         with session_file.open("w", encoding="utf-8") as f:
             json.dump(config, f, ensure_ascii=False, indent=4)
-        log.info("Guake tabs saved to %s", session_file)
+        log.debug("Guake tabs saved to %s", session_file)
 
     def restore_tabs(self, filename="session.json", suppress_notify=False):
         session_file = self.get_xdg_config_directory() / filename
         if not session_file.exists():
-            log.info("Cannot find session.json file")
+            log.debug("Cannot find session.json file")
             return
         with session_file.open(encoding="utf-8") as f:
             try:
@@ -1522,7 +1522,7 @@ class Guake(SimpleGladeApp):
             filename = pixmapfile("guake-notification.png")
             notifier.showMessage(_("Guake Terminal"), _("Your tabs has been restored!"), filename)
 
-        log.info("Guake tabs restored from %s", session_file)
+        log.debug("Guake tabs restored from %s", session_file)
 
     def load_background_image(self, filename):
         self.background_image_manager.load_from_file(filename)

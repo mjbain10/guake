@@ -54,7 +54,7 @@ def bindtextdomain(app_name, locale_dir=None):
 
     # pylint: enable=import-outside-toplevel
 
-    log.info("Local binding for app '%s', local dir: %s", app_name, locale_dir)
+    log.debug("Local binding for app '%s', local dir: %s", app_name, locale_dir)
 
     locale.bindtextdomain(app_name, locale_dir)
     locale.textdomain(app_name)

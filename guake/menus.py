@@ -192,7 +192,7 @@ def get_current_selection(terminal, window):
 
 def get_filename_under_cursor(terminal, selection):
     filename, _1, _2 = terminal.is_file_on_local_server(selection)
-    log.info("Current filename under cursor: %s", filename)
+    log.debug("Current filename under cursor: %s", filename)
     if filename:
         return filename
     return None
@@ -200,7 +200,7 @@ def get_filename_under_cursor(terminal, selection):
 
 def get_link_under_cursor(terminal):
     link = terminal.found_link
-    log.info("Current link under cursor: %s", link)
+    log.debug("Current link under cursor: %s", link)
     if link:
         return link
     return None

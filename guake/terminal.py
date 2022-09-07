@@ -326,7 +326,7 @@ class GuakeTerminal(Vte.Terminal):
         try:
             if pt.exists():
                 lineno = find_lineno(text, pt, lineno, py_func)
-                log.info("File exists: %r, line=%r", pt.absolute().as_posix(), lineno)
+                log.debug("File exists: %r, line=%r", pt.absolute().as_posix(), lineno)
                 return (pt, lineno, colno)
             log.debug("No file found matching: %r", text)
             cwd = self.get_current_directory()
@@ -334,7 +334,7 @@ class GuakeTerminal(Vte.Terminal):
             log.debug("checking file existance: %r", pt)
             if pt.exists():
                 lineno = find_lineno(text, pt, lineno, py_func)
-                log.info("File exists: %r, line=%r", pt.absolute().as_posix(), lineno)
+                log.debug("File exists: %r, line=%r", pt.absolute().as_posix(), lineno)
                 return (pt, lineno, colno)
             log.debug("file does not exist: %s", str(pt))
         except OSError:
@@ -418,7 +418,7 @@ class GuakeTerminal(Vte.Terminal):
                     line_number = g.group(2)
                 else:
                     line_number = None
-                log.info("Quick action executed filename=%s, line=%s", filename, line_number)
+                log.debug("Quick action executed filename=%s, line=%s", filename, line_number)
                 (filepath, ln, _) = self.is_file_on_local_server(filename)
                 if ln:
                     line_number = ln
